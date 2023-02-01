@@ -2,7 +2,7 @@
 Description=Power sources monitor
 
 [Service]
-ExecStart=/usr/local/share/legion-power-management/bin/power-sources-monitor
+ExecStart=/usr/local/share/power-sources-monitor/bin/power-sources-monitor
 Restart=on-failure
 
 [Install]
