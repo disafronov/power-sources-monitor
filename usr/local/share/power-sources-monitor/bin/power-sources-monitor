@@ -2,7 +2,7 @@
 
 # Logger
 lpm_logger () {
-    logger -t legion-power-management -s "$1"
+    logger -t power-sources-monitor -s "$1"
 }
 
 # Governor
