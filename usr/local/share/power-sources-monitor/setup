@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+FROM=/usr/local/share/power-sources-monitor/systemd
+TO=/etc/systemd
+
+link_unit() {
+    if [[ -z "$1" ]]; then
+        echo "Specify {system|user} units kind"
+        exit 1
+    fi
+    if [[ -z "$2" ]]; then
+        echo "Specify units list"
+        exit 1
+    fi
+    for UNITFILE in $2; do
+        ln -svf "${FROM}/${UNITFILE}" "${TO}/$1/${UNITFILE}"
+    done
+}
+
+install_unit_system() {
+    if [[ -z "$1" ]]; then
+        echo "Specify units list"
+        exit 1
+    fi
+    for UNITFILE in $1; do
+        systemctl enable "${UNITFILE}"
+    done
+}
+
+install_unit_user() {
+    if [[ -z "$1" ]]; then
+        echo "Specify units list"
+        exit 1
+    fi
+    for UNITFILE in $1; do
+        systemctl enable --global "${UNITFILE}"
+    done
+}
+
+link_unit system "\
+    power-source-ac.target \
+    power-source-battery.target \
+    power-sources-monitor.service"
+
+link_unit user "\
+    power-source-ac.target \
+    power-source-battery.target \
+    power-sources-monitor.service"
+
+systemctl daemon-reload
+
+install_unit_system "power-sources-monitor.service"
+
+install_unit_user "power-sources-monitor.service"
