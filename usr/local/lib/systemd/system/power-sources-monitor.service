@@ -1,8 +1,10 @@
 [Unit]
 Description=Power sources monitor
+Requires=acpid.service
+After=acpid.service
 
 [Service]
-ExecStart=/usr/local/share/power-sources-monitor/bin/power-sources-monitor
+ExecStart=/usr/local/libexec/power-sources-monitor
 Restart=on-failure
 
 [Install]
