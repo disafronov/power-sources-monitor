@@ -9,7 +9,7 @@ lpm_logger () {
 set_power_target () {
     case $1 in
         ac|battery)
-            systemctl ${SYSTEMD_USER} start power-source-$1.target
+            systemctl ${SYSTEMD_USER} start "power-source-$1.target"
             ;;
         *)
             lpm_logger "Error in [power adapter] configuration!"
@@ -27,8 +27,8 @@ fi
 #######################################################
 
 # Monitor
-acpi_listen | while read LINE; do
-    ADAPTER_SW=$(echo ${LINE} | cut -s -d ' ' -f 4)
+acpi_listen | while read -r LINE; do
+    ADAPTER_SW=$(echo "${LINE}" | grep "^ac_adapter" | cut -s -d ' ' -f 4)
     if [[ -n "${ADAPTER_SW}" ]]; then
         case ${ADAPTER_SW} in
             00000001)
