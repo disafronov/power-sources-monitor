@@ -1,4 +1,4 @@
 [Unit]
 Description=On battery power
 DefaultDependencies=no
-Conflicts=power-ac.target
+Conflicts=power-source-ac.target
